@@ -1,0 +1,121 @@
+﻿@{  
+    ViewBag.Title = "City of Philadelphia: Map";
+    Layout = "~/Views/Shared/_MapLayout.cshtml";
+
+}
+<div data-role="content" id="MainBody" class="container-fluid">
+    <div class="navbar navbar-tools">
+      <div class="navbar-inner">
+        <div class="container" >
+            <ul id="LeftTools" class="nav pull-left no-collapse" >
+                <li id="SearchButton">
+                    <i class="icon-search icon-large"></i><span class="hidden-phone">&nbsp;&nbsp;Search</span>
+                </li> 
+                <li id="LegendButton">
+                    <i class="icon-list icon-large"></i><span class="hidden-phone">&nbsp;&nbsp;Legend</span>
+                </li>               
+                <li id="RegionsButton">
+                    <i class="icon-globe icon-large"></i><span class="hidden-phone" data-loading-text="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Loading...">&nbsp;&nbsp;Regions</span>
+                </li> 
+                                 
+            </ul>
+            <ul id="RightTools" class="nav pull-right no-collapse">
+                <li id="TopicsButton">
+                    <i class="icon-map-marker icon-large"></i><span class="hidden-phone" data-loading-text="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Loading...">&nbsp;&nbsp;Map Browser</span>
+                </li>
+                <li id="HelpButton">
+                    <i class="icon-question-sign icon-large"></i><span class="hidden-phone">&nbsp;&nbsp;Help</span>
+                </li>  
+                <li onclick="window.open('/Map/Feedback');" id="HelpButton">
+                    <i class="icon-comments-alt icon-large"></i><span class="hidden-phone">&nbsp;&nbsp;Feedback</span>
+                </li>                           
+            </ul>             
+        </div>
+      </div>
+    </div>
+    <div id="map" class="fullmap">
+        <div class="baseMapSwitcher switcher-collapse" id="BaseMapSwitcher">
+            <div class="selectedBaseMap">
+                <div class="baseMapImage esriBasemapGalleryThumbnail"></div>
+                <div class="baseMapText"></div>
+            </div>
+            <div id="BaseMapGallery" class="gallery"></div>           
+        </div>        
+        <div class="alert loadAlert alert-info">Loading  <img title="loading" alt="Loading" src="@Url.Content("~/Content/Images/loading.gif")" /></div>
+        <div class="alert scaleAlert alert-info">Zoom in to see all features.</div>  
+        <div id="MapSelectors" class="btn-group hidden-phone"></div>   
+    </div>
+    <div class="left-panel">
+    <div class="popout fancy-scroll">   
+        <div class="popout-data">                   
+            <ul id="ItemList" class="nav nav-pills nav-stacked"><h3>Click a feature on the right to view all of its details in this panel.</h3></ul>
+        </div> 
+    </div>
+    <div class="toggle">
+            <div class="btn-toggle open icon-caret-right"></div>
+    </div>
+    </div>
+    
+<div id="SearchDialog" data-rel="dialog" title="<i class='icon-search icon-large'></i>&nbsp;&nbsp;Map Search" class="after-load">	
+    <form id="SearchForm" onsubmit="mapSearch($('#AddressSearchText').val());return false;">
+        <input id="AddressSearchText" type="text" class="search-query" placeholder="Search for: Street Addresses" />
+        <button id="AddressSearchButton" class="btn btn-primary"><i class="icon-search"></i></button>
+    </form>
+    <a class="decisionLink" id="SearchMoreButton"><i class="icon-plus-sign icon-large"></i>&nbsp;&nbsp;Search For:</a> 
+    <br />
+    <div id="SearchMore"> 
+        <ul class="nav nav-pills nav-stacked">
+            <li class="active"><a onclick="setSearch(this,'');">Addresses</a></li>      
+            <li rel-shortcut="zip:"><a onclick="setSearch(this,'ZIP:');">Zip Codes<i title="Shortcut: ZIP:" class="icon-info-sign pull-right"></i></a></li>
+            <li rel-shortcut="cd:"><a onclick="setSearch(this,'CD:');">Council Districts<i title="Shortcut: CD:" class="icon-info-sign pull-right"></i></a></li>            
+            <li rel-shortcut="ppd:"><a onclick="setSearch(this,'PPD:');">Police Districts<i title="Shortcut: PPD:" class="icon-info-sign pull-right"></i></a></li>
+            <li rel-shortcut="fd:"><a onclick="setSearch(this,'FD:');">Fire Districts<i title="Shortcut: FD:" class="icon-info-sign pull-right"></i></a></li>
+            <li rel-shortcut="ct:"><a onclick="setSearch(this,'CT:');">Census Tracts<i title="Shortcut: CT:" class="icon-info-sign pull-right"></i></a></li>
+            <li rel-shortcut="ed:"><a onclick="setSearch(this,'WD:');">Political Wards<i title="Shortcut: WD:" class="icon-info-sign pull-right"></i></a></li>
+            <li rel-shortcut="hsc:"><a onclick="setSearch(this,'HSC:');">High School Catchments<i title="Shortcut: HSC:" class="icon-info-sign pull-right"></i></a></li>
+        </ul>
+    </div>
+</div>
+<div id="LegendDialog" title="<i class='icon-list icon-large'></i>&nbsp;&nbsp;Map Legend" class="after-load">
+    <div id="LegendContent"></div>
+</div>
+<div id="HelpDialog" title="<i class='icon-question-sign icon-large'></i>&nbsp;&nbsp;Map Help" class="after-load">
+     <div class="helpContent">
+         <p>For a general introduction to the application:</p>
+         <ul class="nav nav-pills nav-stacked">
+            <li class="active"><a onclick="$('#HelpDialog').dialog('close');guiders.show('tourFirst');"><i class="icon-hand-right icon-large"></i>&nbsp;&nbsp;Take a Tour</a></li>
+         </ul> 
+         <p>For more information about a tool, select:</p>
+         <ul class="nav nav-pills nav-stacked">
+            <li class="active"><a onclick="mapGuiders();"><i class="icon-move icon-large"></i>&nbsp;&nbsp;Map Interaction</a></li>
+            <li class="active"><a onclick="browserGuiders();"><i class="icon-map-marker icon-large"></i>&nbsp;&nbsp;Map Browser</a></li>   
+            <li class="active"><a onclick="searchGuiders();"><i class="icon-search icon-large"></i>&nbsp;&nbsp;Search</a></li>
+            <li class="active"><a onclick="regionGuiders();"><i class="icon-globe icon-large"></i>&nbsp;&nbsp;Regions</a></li>                     
+         </ul>   
+         <div class="about">
+            <a href="/Map/Feedback">Feedback</a> | <a href="http://www.phila.gov/privacy/index.html">HIPAA</a> 
+            </br>
+            <a href="http://www.phila.gov/privacy/index.html">Privacy</a> | <a href="http://www.phila.gov/privacy/pdfs/FinalCityOpenRecords.pdf">Right to Know</a> | <a href="http://www.phila.gov/tos/index.html">Terms</a>	    
+         </div>         
+     </div>  
+</div>
+<div id="RegionsDialog" title="<i class='icon-globe icon-large'></i>&nbsp;&nbsp;Map Regions" class="after-load">
+    <ul id="RegionsList" class="nav nav-pills nav-stacked regionsList">
+        
+    </ul>
+</div>
+<div id="TopicsDialog" title="<i class='icon-map-marker icon-large'></i>&nbsp;&nbsp;Map Browser" class="after-load container">
+    <div class="row-fluid">  
+      <div class="span3 hidden-phone">  
+	      <ul id="TopicsList" class="nav nav-pills nav-stacked">
+            <li class="active"><a onclick="filterTopics(this);"  tip-data="tooltip-topic" title="Show All">All</a></li>
+          </ul>
+      </div>  
+      <div class="span9">
+          <ul id="MapsList" class="thumbnails">        
+          </ul>
+      </div>
+    </div>
+</div>
+<!--[if lt IE 8]><style type="text/css">#MapSelectors{display:none;}</style><![endif]-->
+

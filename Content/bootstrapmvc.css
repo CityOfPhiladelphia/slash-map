@@ -1,0 +1,837 @@
+﻿.after-load
+{
+    display:none;
+}
+
+#MainBody
+{
+    padding-top:60px;   
+}
+
+/*#region Navigation */
+.navbar-inner {      
+    -moz-box-shadow: 4px 4px 4px #888;
+    -webkit-box-shadow: 4px 4px 4px #888;
+    box-shadow: 4px 4px 4px #888;
+}
+
+.caption p
+{
+    height: 54px;
+}
+
+#Mapslist .thumbnail img
+{
+    height:133px;
+}
+
+#DeptFilter
+{
+   color:#0000FF;
+   font-style:italic;
+   padding: 10px;
+}
+
+.browserAlert{
+    z-index: 9;
+    position: absolute;
+    bottom: 10px;
+    left: 20px;
+    width: 360;
+}
+
+.scaleAlert {
+    z-index: 9;
+    position: absolute;
+    top: 10px;
+    left: 60px;
+    width: 155px;
+    padding: 8px 8px 8px 8px;
+    display:none;
+}
+
+.navbar-tools {
+    top:38px;
+    z-index: 1000;
+    margin:-18px -20px 0px;
+    padding:0px;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+    color:Black;
+    border-bottom: 1px solid #aaa;
+}
+
+*+html .navbar-tools { 
+    top:0px;
+    margin-top:-20px;
+}
+
+.mirror {
+    display:block; 
+    -moz-transform: matrix(-1, 0, 0, 1, 0, 0);
+    -webkit-transform: matrix(-1, 0, 0, 1, 0, 0);
+    -o-transform:matrix(-1, 0, 0, 1, 0, 0);
+}
+
+#MapSelectors
+{
+    position: absolute;
+    left:2px;
+    bottom:2px;  
+    z-index:9; 
+}
+
+.esriPopup .titleButton.next {
+    left:90px!important;
+    right:auto;
+}
+
+.esriPopup .titleButton.prev {
+    left:75px!important;
+    right:auto;
+}
+
+.esriPopup .titleButton.popoutIcon {
+    right: 20px;
+    background:none;
+    top: 0px;
+}
+
+.esriPopup .titlePane .spinner {
+background: url('/Map/Content/Images/ajax-loader.gif') no-repeat;
+}
+
+.icon-small
+{
+    font-size:12px;
+}
+
+.tab-btn.active
+{
+    text-shadow: 0.05em 0.05em 0.1em dimGray;
+    background-color: #666;
+    color: whiteSmoke;    
+}
+
+.navbar-tools .navbar-inner 
+{
+    background-color: #EEE;
+    background-repeat: repeat-x;
+    background-image: -moz-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,whiteSmoke), color-stop(100%,#EEE));
+    background-image: -webkit-linear-gradient(top, whiteSmoke 0%,#EEE 100%);
+    background-image: -ms-linear-gradient(top, whiteSmoke 0%,#EEE 100%);
+    background-image: -o-linear-gradient(top, whiteSmoke 0%,#EEE 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f5f5f5', endColorstr='#eeeeee',GradientType=0 );
+    background-image: linear-gradient(top, whiteSmoke 0%,#EEE 100%);
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+    -moz-box-shadow: 0px 2px 4px #888;
+    -webkit-box-shadow: 0px 2px 4px #888;
+    box-shadow: 0px 2px 4px #888;
+    z-index: inherit;
+}
+
+.esriPopup .titlePane
+{
+    background: #254A78;
+    background: -webkit-gradient(linear, left top, left bottom, from(#4069AB), to(#1A3C6A));
+    background: -moz-linear-gradient(top, #4069AB, #1A3C6A);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#4069AB', endColorstr='#1A3C6A');
+}
+
+
+
+.decisionLink
+{
+    color: #3661A2 !important;
+    text-decoration: none !important;    
+}
+
+.alert{
+    margin-top: 8px;
+    width:230px;
+}
+
+.browserAlert{
+    z-index: 9;
+    position: absolute;
+    bottom: 10px;
+    left: 20px;
+    width: 360;
+}
+
+.scaleAlert {
+    z-index: 9;
+    position: absolute;
+    top: 10px;
+    left: 60px;
+    width: 160px;
+    padding: 8px 8px 8px 8px;
+    display:none;
+}
+.loadAlert {
+    z-index: 9;
+    position: absolute;
+    bottom: 10px;
+    left:50%;
+    margin-left: -35px; 
+    width: 70px;
+    padding: 8px 8px 8px 8px;
+    display:none;
+}
+
+.about{
+    text-align:center;
+    font-size: 12px;
+    background-color: #373737;
+    color: white;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.about a
+{
+    color: white;
+}
+
+.layersDiv {
+background-color: #F0F0F0;
+}
+
+a
+{
+    cursor:pointer;
+}
+
+#HelpDialog .hero-unit 
+{
+    padding:20px;
+    overflow: auto;
+}
+
+.esriLegendService {
+padding-bottom: 5px;
+}
+
+.regionsList
+{
+    min-width:280px;      
+}
+
+#RegionsDialog
+{
+    max-height:500px;
+    padding-right: 20px;
+}
+
+#LeftTools li
+{
+    cursor:pointer;
+}
+
+#RightTools li {
+cursor: pointer;
+}
+
+.esriPopupMobile .sizer .titlePane
+{
+    background: #254A78;
+    background: -webkit-gradient(linear, left top, left bottom, from(#4069AB), to(#1A3C6A));
+    background: -moz-linear-gradient(top, #4069AB, #1A3C6A);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#4069AB', endColorstr='#1A3C6A');
+}
+
+.esriMobileNavigationBar
+{
+    left:0px;
+    background: #254A78;
+    background: -webkit-gradient(linear, left top, left bottom, from(#4069AB), to(#1A3C6A));
+    background: -moz-linear-gradient(top, #4069AB, #1A3C6A);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#4069AB', endColorstr='#1A3C6A');
+}
+
+.ui-widget-header {
+    border: 1px solid #A8A8A8;
+    background: #254A78;
+    background: -webkit-gradient(linear, left top, left bottom, from(#4069AB), to(#1A3C6A));
+    background: -moz-linear-gradient(top, #4069AB, #1A3C6A);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#4069AB', endColorstr='#1A3C6A');
+}
+
+.x_button
+{
+    background-image: url('/Map/Content/Images/x_close_button.jpg');   
+}
+
+.ui-widget-header {
+color: white;
+font-weight: bold;
+text-shadow: none;
+}
+
+#LegendContent
+{
+    max-height:500px;
+}
+
+.esriMobileInfoView{
+    left:0px;   
+}
+
+.nav-pills > .active > a, .nav-pills > .active > a {
+    background: #254A78;
+    background: -webkit-gradient(linear, left top, left bottom, from(#4069AB), to(#1A3C6A));
+    background: -moz-linear-gradient(top, #4069AB, #1A3C6A);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#4069AB', endColorstr='#1A3C6A');
+}
+
+.btn-primary 
+{
+    background: #254A78;
+    background: -webkit-gradient(linear, left top, left bottom, from(#4069AB), to(#1A3C6A));
+    background: -moz-linear-gradient(top, #4069AB, #1A3C6A);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#4069AB', endColorstr='#1A3C6A');
+}
+
+.btn-primary:hover
+{
+    background-color:#3661A2;
+}
+
+.titleButton
+{
+    opacity:1;   
+}
+
+.navbar-tools .navbar-inner .container
+{
+    z-index: inherit;
+}
+
+.navbar-tools .nav li
+{
+    line-height:30px;
+    padding-left:5px;
+    padding-right:10px; 
+    padding-bottom:0px; 
+    border-right:1px solid #AAA;
+    font-size:15px;
+}
+
+.navbar-inner
+{
+    min-height:30px;   
+}
+
+.navbar-tools .nav li:last-child
+{
+    border-right:none;   
+}
+
+.navbar-tools .nav li:hover
+{
+    background-color: #DDD;
+    background-repeat: repeat-x;
+    background-image: -moz-linear-gradient(top, #DDD 0%, #BBB 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#DDD), color-stop(100%,#BBB));
+    background-image: -webkit-linear-gradient(top, #DDD 0%,#BBB 100%);
+    background-image: -ms-linear-gradient(top, #DDD 0%,#BBB 100%);
+    background-image: -o-linear-gradient(top, #DDD 0%,#BBB 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#dddddd', endColorstr='#bbbbbb',GradientType=0 );
+    background-image: linear-gradient(top, #DDD 0%,#BBB 100%);
+}
+
+.navbar-inner .nav li a:hover
+{
+    background: none repeat scroll 0 0 #444444 !important;
+}
+
+.navbar-fixed-top .navbar-inner
+{
+    background: #254A78;
+    background: -webkit-gradient(linear, left top, left bottom, from(#4069AB), to(#1A3C6A));
+    background: -moz-linear-gradient(top, #4069AB, #1A3C6A);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#4069AB', endColorstr='#1A3C6A');   
+    -moz-box-shadow: 0px 2px 4px #888;
+    -webkit-box-shadow: 0px 2px 4px #888;
+    box-shadow: 0px 2px 4px #888;
+}
+
+.navbar-fixed-top
+{
+    z-index:1039 !important; 
+    margin-bottom:0px !important;  
+}
+
+.navbar-search
+{
+    margin-top:0px; 
+}
+
+.navbar-search
+{
+    margin-top:0px; 
+}
+
+.navbar .btn, .navbar .btn-group
+{
+    margin-bottom:5px;
+}
+
+.navbar .brand
+{
+    padding: 4px 20px 4px;
+}
+
+.btn-navbar
+{
+    background: none !important;
+}
+
+.navbar-inner .nav li a
+{
+    background: none !important;
+}
+
+.navbar-bottom a
+{
+   color:black !important;
+   font-weight:normal !important;
+}
+
+.navbar-bottom a:hover
+{
+    color:black !important;
+    font-weight:normal !important;
+}
+
+.navbar-inner .nav li a:hover
+{
+    background: none repeat scroll 0 0 #CCCCCC !important;
+}
+
+.navbar-inner .nav img
+{
+    padding-top:3px;
+}
+
+.navbar-fixed-top .navbar-inner .nav li a:hover
+{
+    background: none repeat scroll 0 0 #1F4272 !important;
+}
+
+.navbar .dropdown-menu.bottom-up::after 
+{
+    border-bottom: 0px solid transparent !important;
+    border-top: 6px solid white;
+    top: auto !important;
+    bottom: -6px;
+}
+
+.thumbnail .btn-primary
+{
+    color:White;
+}
+
+.badge {
+color: white !important;
+}
+
+.ui-widget form
+{
+    margin: 0px 0px 10px 0px;
+}
+
+.regionsCheck
+{
+    float:left;  
+    margin: 8px!important;
+}
+
+#SearchDialog .search-query
+{
+    width:215px;
+}
+
+.ui-dialog .ui-dialog-content {
+padding: .5em .5em;
+}
+
+.search-main-icon
+{    
+    position:absolute;
+    top:11px;
+    right:27px;
+    z-index:999;
+}
+
+/*#endregion*/
+
+
+
+/*#region Map */
+.fullmap
+{
+    position:absolute;
+    top:70px;
+    bottom:0px;
+    right:0px;
+    left:0px;
+    background-color:#CCCCCC;
+    z-index:-1;
+    margin-left: 0px !important;
+}
+
+.mapRight
+{
+    left:16%;
+}
+
+.toggle 
+{
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background-color: #EEE;
+    /*z-index: 0;*/
+    top: 50%;
+    left:-20px;
+    float: left;
+    border-top-right-radius: 10px 10px;
+    border-bottom-right-radius: 10px 10px;
+    -moz-box-shadow: 4px 4px 4px #888 !important;
+    -webkit-box-shadow: 4px 4px 4px #888 !important;
+    box-shadow: 4px 4px 4px #888 !important;
+    overflow: hidden;
+    float: left;
+    display: none;
+}
+
+.panel-details 
+{
+    font-family: Verdana, Geneva, Arial, Helvetica, Sans-Serif;
+}
+
+.btn-toggle 
+{
+    top: 25%;
+    left: 35%;
+    position: absolute;
+    font-size:55px;
+}
+
+.left-panel 
+{
+    width: 300px;
+    position: absolute;
+    top: 74px;
+    bottom: 0px;
+    float: left;
+}
+
+
+.popout
+{
+    position:fixed;
+    top:71px;
+    bottom:0px;
+    left:-300px;
+    width:300px;
+    /*z-index:1;*/
+    float: left;
+    /*display:none;*/
+    overflow-y:scroll;
+    
+    background-color: #EEE; /* Was #F7F7F7 */
+}
+
+.fancy-scroll::-webkit-scrollbar-button
+{
+    background-color: Blue;
+}
+
+.popout-data 
+{
+    width: 85%;
+    float: left;
+}
+
+.popout-data .header 
+{
+    font-size: 16px;
+    color: #254A78;
+    margin-bottom: 3px;
+    font-weight: bold;
+    
+}
+
+
+    
+    
+    
+.close.icon-caret-left 
+{
+    position:absolute; 
+    top:50%; 
+    height:20px; 
+    margin-top:-5px; 
+    font-size:55px;
+}
+
+.close-popout 
+{
+    width: 10%;
+    overflow: hidden;
+    height: 100%;
+    position:relative;
+    background-color: #ccccd6;
+    padding: 0px;
+    margin: 0px;
+}
+
+.btn-hide-popout 
+{
+    margin: 0 auto;
+}
+
+
+#ItemList
+{
+    padding-left: 12px;
+    padding-top: 12px; 
+
+}
+
+#MapsList li
+{
+    margin-left: 10px;
+}
+
+/*#region Map Tools */
+
+.esriSimpleSlider {
+    -moz-box-shadow: 4px 4px 4px #888 !important;
+    -webkit-box-shadow: 4px 4px 4px #888 !important;
+    box-shadow: 4px 4px 4px #888 !important;
+}
+
+.esriLegendService div {
+    padding: 0px;
+}
+
+.logo-med{display:none;}
+
+.baseMapSwitcher
+{
+    position: absolute;
+    z-index: 2;
+    right: 10px;
+    top: 10px;
+    text-align: center;
+    border: 1px solid #666;
+    background-color: white;
+    color: #666;
+    cursor: pointer;
+    -webkit-border-radius: 9px;
+    -moz-border-radius: 9px;
+    -o-border-radius: 9px;
+    border-radius: 9px;
+    -moz-box-shadow: 0 0 0.5em #BBBBBB;
+    -webkit-box-shadow: 0 0 0.5em #BBBBBB;
+    font-size:12px;            
+    padding-top: 10px;
+    overflow:hidden;    
+    width:100px;
+    -moz-box-shadow: 4px 4px 4px #888;
+    -webkit-box-shadow: 4px 4px 4px #888;
+    box-shadow: 4px 4px 4px #888;
+}
+
+.helpContent
+{
+    width: 215px;
+}
+
+.switcher-collapse
+{
+    height:95px;
+    opacity:0.5;
+}
+
+.switcher-expand
+{
+    height:325px;
+    opacity:1;
+}     
+      
+.baseMapImage
+{
+    height:75px;     
+    background-color:gray;
+    width:75px; 
+    margin:auto !important;
+    border:1px solid #1A3C6A !important;
+}
+      
+.baseMapText
+{
+    margin-bottom:5px;
+}
+      
+#BaseMapGallery
+{
+    width:100px;   
+    margin:auto;
+}
+      
+.esriBasemapGalleryThumbnail
+{
+     width:75px !important;
+     height:75px !important;   
+     border:1px solid gray;
+}
+          
+.esriBasemapGalleryNode
+{
+     margin:auto !important;
+}    
+            
+.esriBasemapGallerySelectedNode
+{ 
+     display:none;            
+}
+       
+.selectedBaseMap
+{
+     border-bottom: 1px solid gray; 
+     margin-bottom:10px;   
+}
+
+.nav{
+margin-bottom: 5px;
+}
+/*#endregion*/
+
+
+/*#endregion*/
+
+@media (max-width: 1200px)
+{
+    .mapRight
+    {
+        left:20%;
+    }
+}
+
+
+@media (max-width: 979px){
+    .hidden-tablet
+    {
+        display:none !important;   
+    }
+    
+    .navbar-tools .nav.pull-left.no-collapse li {
+        float: left !important;
+    }    
+    
+    .navbar .nav.pull-right.no-collapse {
+        float: right !important;
+    }
+    
+    .navbar .nav.pull-right.no-collapse li {
+        float: left !important;
+    }    
+    
+    .navbar-inner
+    {
+        padding:0px !important;   
+    }
+    
+    .navbar .brand
+    {
+        padding:3px;
+    }    
+    
+    .navbar-tools 
+    {
+        margin-top:0px;   
+    }
+        
+    .navbar .brand {
+        margin-top: 5px;
+    }
+    
+    .navbar .nav {
+        margin: 0px !important;
+    }
+    
+    .navbar-bottom .navbar-inner 
+    {
+        padding-left:5px;
+        padding-right:5px;
+    }
+        
+    .navbar-bottom .navbar .btn, .navbar .btn-group {
+        margin-bottom: 7px;
+        margin-top: 7px;
+    }
+    
+    #MainBody {
+        padding-top: 0px;
+    }
+    
+    .mapRight
+    {
+        left:25%;
+    }
+}
+
+@media (max-width: 480px){       
+    .search-query
+    {
+        width:100px;
+    }
+       
+    .hidden-phone
+    {
+        display:none !important;    
+    }
+    
+    .switcher-collapse
+    {
+        height:58px;
+        opacity:1;
+    }
+
+    .switcher-expand
+    {
+        height:208px;
+    }  
+    
+    #BaseMapGallery
+    {
+        width:50px; 
+    }
+    
+    .esriBasemapGalleryNode
+    {
+         width:50px !important;
+    }  
+    
+    .baseMapSwitcher
+    {
+        width:50px;
+        font-size:10px;
+    }
+    
+    .esriBasemapGalleryThumbnail
+    {
+         width:35px !important;
+         height:35px !important;   
+         border:1px solid gray;
+    }
+}
