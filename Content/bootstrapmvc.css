@@ -659,13 +659,13 @@ padding: .5em .5em;
 .switcher-collapse
 {
     height:95px;
-    opacity:0.5;
+    opacity:0.25;
 }
 
 .switcher-expand
 {
-    height:325px;
-    opacity:1;
+    height:350px;
+    opacity:0.75;
 }     
       
 .baseMapImage

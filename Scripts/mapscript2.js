@@ -25,8 +25,8 @@ var config = {};
 var utilities = {};
 //Accessing ArcGIS Online For Organizations (ago4o)
 config.ago4oUrl = "http://philadelphia.maps.arcgis.com/sharing/rest/";
-//config.ago4oGroup = "2c3f44c7f1384c87b00ec0c422b2075b"; //production group ID
-config.ago4oGroup = "daae8c4d60494814a1ad81545cfc5786"; //staging group ID
+config.ago4oGroup = "ff27262386a84f8b9e6d82d861bf2854"; //production group ID
+//config.ago4oGroup = "daae8c4d60494814a1ad81545cfc5786"; //staging group ID
 config.geometryUrl = "http://gis.phila.gov/ArcGIS/rest/services/Geometry/GeometryServer";
 config.geocodeUrl = "http://services.phila.gov/ULRS311/Data/Location2272";
 config.baseMapID = 'e79a75c2d7174252a40cdaaefed15c04';  // was: 'e79a75c2d7174252a40cdaaefed15c04'; new: d0d287efec7a447eb689b46d4e1cc827

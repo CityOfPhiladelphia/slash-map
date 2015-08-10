@@ -11,6 +11,9 @@ dojo.require("esri.dijit.Legend");
 dojo.require("esri.tasks.locator");
 dojo.require("esri.tasks.find");
 dojo.require("esri.tasks.identify");
+dojo.require("esri.tasks.geometry");
+//dojo.require("esri.config");
+
 
 //global variables
 var map;
@@ -22,28 +25,30 @@ var config = {};
 var utilities = {};
 //Accessing ArcGIS Online For Organizations (ago4o)
 config.ago4oUrl = "http://phl.maps.arcgis.com/sharing/rest/";
-config.ago4oGroup = "d152eac03ed34a9aab6b97c07d7cb4ae"; //production group ID
+config.ago4oGroup = "ff27262386a84f8b9e6d82d861bf2854"; //production group ID -- changed 4/30/2015 to phl org.
 //config.ago4oGroup = "daae8c4d60494814a1ad81545cfc5786"; //staging group ID
-//config.ago4oGroup = 'cd7e1f7a134d42a587d9f6f059d6a6c5'; // for testing the Web Mercator server farm
 config.geometryUrl = "http://gis.phila.gov/ArcGIS/rest/services/Geometry/GeometryServer";
-config.geocodeUrl = "http://services.phila.gov/ULRS311/Data/Location2272";
-config.baseMapID = '17c2509cb7d4474f8afd07e65096b618';
+config.geocodeUrl = "http://services.phila.gov/ULRS311/Data/Location"; //changed this to WGS84 locator from Data/Location2272 (state plane)
+//config.baseMapID = '17c2509cb7d4474f8afd07e65096b618';
+//set baseMapID to the first loaded basemap, it gets referenced down below during map topic creation/removal, not to a group but individual basemap
+config.baseMapID = '2d7ff279bc0a4322835e52b04506dc9f' //world topo basemap
 config.geocodeFieldName = "SingleLine";
 config.deptFilter = "";
 config.topicCategories = [];
 config.layersLoaded = []; // ADDED 12/21
 config.topicsLoaded = false;
 config.regionsLoaded = false;
-config.regionMapService = "http://gis.phila.gov/ArcGIS/rest/services/PhilaGov/ServiceAreas/MapServer";
+//config.regionMapService = "http://gis.phila.gov/ArcGIS/rest/services/PhilaGov/ServiceAreas/MapServer";
+config.regionMapService = "http://gis.phila.gov/arcgis/rest/services/PhilaGov/ServiceAreas/MapServer";
 config.searchShortcut = "";
 config.shortcutLookup = {
-    "cd:": { layers: [1], fields: ['DIST_NUM'], resultLabel:"Council District: "},
-    "ppd:": { layers: [7], fields: ['DIST_NUM'], resultLabel: "Police District: " },
-    "zip:": { layers: [20], fields: ['CODE'], resultLabel: "Zip Code: " },
-    "fd:": { layers: [2], fields: ['FIRENG_ID'], resultLabel: "Fire District: " },
-    "ct:": { layers: [0], fields: ['TRACT'], resultLabel: "Census Tract: " },
-    "wd:": { layers: [10], fields: ['WARD_NUM'], resultLabel: "Political Ward: " },
-    "hsc:": { layers: [17], fields: ['NAME'], resultLabel: "High School Catchment: " }
+    "cd:": { layers: [2], fields: ['DIST_NUM'], resultLabel:"Council District: "},
+    "ppd:": { layers: [8], fields: ['DIST_NUM'], resultLabel: "Police District: " },
+    "zip:": { layers: [23], fields: ['CODE'], resultLabel: "Zip Code: " },
+    "fd:": { layers: [4], fields: ['FIRESTATIONNUM'], resultLabel: "Fire District: " },
+    "ct:": { layers: [0], fields: ['TRACTCE10'], resultLabel: "Census Tract: " },
+    "wd:": { layers: [21], fields: ['WARD_NUM'], resultLabel: "Political Ward: " },
+    "hsc:": { layers: [18], fields: ['NAME'], resultLabel: "High School Catchment: " }
 }
 config.numberKeywordLookup = {
     'council':"cd:",
@@ -52,7 +57,12 @@ config.numberKeywordLookup = {
     'census':"ct:",
     'ward':"wd:"
 }
-config.shortcutSearchServiceUrl = "http://gis.phila.gov/ArcGIS/rest/services/PhilaGov/ServiceAreas/MapServer";
+//config.shortcutSearchServiceUrl = "http://gis.phila.gov/ArcGIS/rest/services/PhilaGov/ServiceAreas/MapServer";
+config.shortcutSearchServiceUrl = "http://gis.phila.gov/arcgis/rest/services/PhilaGov/ServiceAreas/MapServer";
+
+function esriConfig() {   
+    esriConfig.defaults.io.corsDetection = false; 
+    };
 
 function mapLoad() {
     if (browserGrade() == "B") {
@@ -69,9 +79,15 @@ function mapLoad() {
     else {
         popup = new esri.dijit.Popup(null, dojo.create("div"));
     }
-    map = new esri.Map("map", { logo: false, infoWindow: popup });
-
-    registerLoading();
+	
+    // Create a custom zoom extent and apply to the map
+	var mapExtent = new esri.geometry.Extent({
+		"xmin":-8391763.360456783,"ymin":4857720.316323252,"xmax":-8333059.722733847,"ymax":4882141.946860334,"spatialReference":{"wkid":102100}
+	});
+	
+	map = new esri.Map("map", {extent: mapExtent, logo: false, infoWindow: popup });
+	
+	registerLoading();
 
     //temporary bugfix, test to see if we can get rid of this at a later date 6/15/12
     esri.dijit.BasemapGallery.prototype._markSelected = function (basemap) {
@@ -100,6 +116,9 @@ function mapLoad() {
     checkUrlParams();
 
     compatCheck();
+	
+	//map.setExtent(mapExtent);
+	console.log(mapExtent);
 }
 
 dojo.addOnLoad(mapLoad);
@@ -813,18 +832,41 @@ function showAddressResults(results) {
     }
 }
 
+function transformCoord(value) {
+    var mercatorGeom = esri.geometry.geographicToWebMercator(value);
+    //console.log("geom", geom);
+    return mercatorGeom;
+}
+
 function showAddress(result) {
        $('#AddressSearchText').val(result.Address.StandardizedAddress);
-       var location = new esri.geometry.Point(result.XCoord, result.YCoord, map.spatialReference);
+
+       var wgsSpatialReference = new esri.SpatialReference({ wkid: 4326 });
+
+       //Migrating map to Web Mercator. Utilizing the WGS 84 geocoder for ULRS in config.geocodeUrl.
+       //Add transformation function to change coordinates to web mercator
+
+       var location = new esri.geometry.Point(result.XCoord, result.YCoord, wgsSpatialReference);
+       //console.log("LOCATION VAR:", location);
+
+       mercatorPoint = transformCoord(location);
+       //console.log("geom", mercatorPoint);
+       
+       //var location = new esri.geometry.Point(result.XCoord, result.YCoord, map.spatialReference);
        //var location = new esri.geometry.Point(-75.156088, 39.939715, map.spatialReference)
-        var addressResult = new esri.tasks.AddressCandidate();
-        addressResult.location = location;
+       var addressResult = new esri.tasks.AddressCandidate();
+
+        //change addressResult.location to web mercator point, comment out old code
+       //addressResult.location = location;
+        addressResult.location = mercatorPoint;
         addressResult.address = result.Address.StandardizedAddress;
         var show;
         if (map.getLevel() != (map.getNumLevels() - 3)) {
             show = function () {
                 var def = dojo.connect(map, "onZoomEnd", function () {
-                    map.infoWindow.show(location);
+                    //change infoWindow mercator location, comment out original code
+                    map.infoWindow.show(mercatorPoint);
+                    //map.infoWindow.show(location);
                     $('#AddressSearchText').focus();
                     dojo.disconnect(def);
                 });
@@ -833,14 +875,18 @@ function showAddress(result) {
         else {
             show = function () {
                 var def = dojo.connect(map, "onPanEnd", function () {
-                    map.infoWindow.show(location);
+                    //change infoWindow mercator location, comment out original code
+                    map.infoWindow.show(mercatorPoint);
+                    //map.infoWindow.show(location);
                     $('#AddressSearchText').focus();
                     dojo.disconnect(def);
                 });
             }
         }
         idInfo(addressResult);
-        map.centerAndZoom(location, map.getNumLevels() - 3);
+        //change map zoom to mercator location, comment out original code
+        map.centerAndZoom(mercatorPoint, map.getNumLevels() - 3);
+        //map.centerAndZoom(location, map.getNumLevels() - 3);
         show();
         if (isPhone()) {
             $("#SearchDialog").dialog('close');
@@ -992,13 +1038,13 @@ function changeBaseMapImage() {
 
 //size and make opaque
 function switcherShow() {
-    $(".baseMapSwitcher").stop(true, true).switchClass("switcher-collapse", "switcher-expand", 300);
+    $(".baseMapSwitcher").stop(true, true).switchClass("switcher-collapse", "switcher-expand", 200);
     _gaq.push(['_trackEvent', 'BaseMap', 'Switcher', 'Show']);
 }
 
 //shrink and make semi transparent (opacity not shown in older browsers)
 function switcherHide() {
-    $(".baseMapSwitcher").stop(true, true).switchClass("switcher-expand", "switcher-collapse", 300);
+    $(".baseMapSwitcher").stop(true, true).switchClass("switcher-expand", "switcher-collapse", 200);
     _gaq.push(['_trackEvent', 'BaseMap', 'Switcher', 'Hide']);
 }
 
@@ -1011,15 +1057,15 @@ function createBasemapGallery() {
 
     //add tiled basemaps to the maps array
 
-    addBaseMap({ url: "http://tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/PhiladelphiaGrayWM/MapServer", title: "Gray", thumbnailUrl: "/Map/Content/Images/Streets.jpg" }, basemaps);
-    addBaseMap({ url: "http://gis.phila.gov/arcgis/rest/services/BaseMaps/GrayBase_WM/MapServer", title: "Topo", thumbnailUrl: "/Map/Content/Images/Streets.jpg" }, basemaps);
-    addBaseMap({ url: "http://gis.phila.gov/arcgis/rest/services/BaseMaps/Hybrid_WM/MapServer", title: "Hybrid", thumbnailUrl: "/Map/Content/Images/Hybrid.jpg" }, basemaps);
-    addBaseMap({ url: "http://gis.phila.gov/arcgis/rest/services/BaseMaps/Aerial_WM/MapServer", title: "Aerial", thumbnailUrl: "/Map/Content/Images/Aerial.jpg" }, basemaps);
-
-    //build the gallery and start it up (this adds them to the map)
-    var basemapGallery = new esri.dijit.BasemapGallery({
+    addBaseMap({ url: "http://tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap/MapServer", title: "City Basemap", thumbnailUrl: "/Map/Content/Images/City_Grey.png"}, basemaps);
+    addBaseMap({ url: "http://tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap_Slate_05212015/MapServer", title: "City Slate", thumbnailUrl: "/Map/Content/Images/City_Slate.png" }, basemaps);
+    addBaseMap({ url: "http://tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityImagery_2014_6in/MapServer", title: "City Aerial 2014", thumbnailUrl: "/Map/Content/Images/City_Imagery_2014.png" }, basemaps);
+        
+	//build the gallery and start it up (this adds them to the map)
+	var basemapGallery = new esri.dijit.BasemapGallery({
         showArcGISBasemaps: false,
         basemaps: basemaps,
+		//basemapsGroup: { id: config.baseMapID },
         map: map
     }, "BaseMapGallery");
     basemapGallery.startup();    
@@ -1257,6 +1303,7 @@ function mapDestroy() {
         dijit.byId("LegendContent").destroy();
         $("#LegendDialog").append('<div id="LegendContent"></div>');
     }
+    
 }
 
 function mapRemove(button) {
