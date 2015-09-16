@@ -1058,7 +1058,7 @@ function createBasemapGallery() {
     //add tiled basemaps to the maps array
 
     addBaseMap({ url: "http://tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap/MapServer", title: "City Basemap", thumbnailUrl: "/Map/Content/Images/City_Grey.png"}, basemaps);
-    addBaseMap({ url: "http://tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap_Slate_05212015/MapServer", title: "City Slate", thumbnailUrl: "/Map/Content/Images/City_Slate.png" }, basemaps);
+    addBaseMap({ url: "http://tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap_Slate/MapServer", title: "City Slate", thumbnailUrl: "/Map/Content/Images/City_Slate.png" }, basemaps);
     addBaseMap({ url: "http://tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityImagery_2014_6in/MapServer", title: "City Aerial 2014", thumbnailUrl: "/Map/Content/Images/City_Imagery_2014.png" }, basemaps);
         
 	//build the gallery and start it up (this adds them to the map)
