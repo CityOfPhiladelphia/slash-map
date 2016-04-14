@@ -28,7 +28,8 @@ config.ago4oUrl = "http://phl.maps.arcgis.com/sharing/rest/";
 config.ago4oGroup = "ff27262386a84f8b9e6d82d861bf2854"; //production group ID -- changed 4/30/2015 to phl org.
 //config.ago4oGroup = "daae8c4d60494814a1ad81545cfc5786"; //staging group ID
 config.geometryUrl = "http://gis.phila.gov/ArcGIS/rest/services/Geometry/GeometryServer";
-config.geocodeUrl = "http://services.phila.gov/ULRS311/Data/Location"; //changed this to WGS84 locator from Data/Location2272 (state plane)
+//config.geocodeUrl = "http://services.phila.gov/ULRS311/Data/Location"; //changed this to WGS84 locator from Data/Location2272 (state plane)
+config.geocodeUrl = "http://gsg.phila.gov/ULRS311/Data/Location";
 //config.baseMapID = '17c2509cb7d4474f8afd07e65096b618';
 //set baseMapID to the first loaded basemap, it gets referenced down below during map topic creation/removal, not to a group but individual basemap
 config.baseMapID = '2d7ff279bc0a4322835e52b04506dc9f' //world topo basemap
@@ -38,14 +39,14 @@ config.topicCategories = [];
 config.layersLoaded = []; // ADDED 12/21
 config.topicsLoaded = false;
 config.regionsLoaded = false;
-//config.regionMapService = "http://gis.phila.gov/ArcGIS/rest/services/PhilaGov/ServiceAreas/MapServer";
-config.regionMapService = "http://gis.phila.gov/arcgis/rest/services/PhilaGov/ServiceAreas/MapServer";
+config.regionMapService = "http://gis.phila.gov/ArcGIS/rest/services/PhilaGov/ServiceAreas/MapServer";
+//config.regionMapService = "http://staging-gis.phila.gov/arcgis/rest/services/PhilaGov/ServiceAreas/MapServer";
 config.searchShortcut = "";
 config.shortcutLookup = {
     "cd:": { layers: [2], fields: ['DIST_NUM'], resultLabel:"Council District: "},
     "ppd:": { layers: [8], fields: ['DIST_NUM'], resultLabel: "Police District: " },
     "zip:": { layers: [23], fields: ['CODE'], resultLabel: "Zip Code: " },
-    "fd:": { layers: [4], fields: ['FIRESTATIONNUM'], resultLabel: "Fire District: " },
+    //"fd:": { layers: [4], fields: ['FIRESTATIONNUM'], resultLabel: "Fire District: " },
     "ct:": { layers: [0], fields: ['TRACTCE10'], resultLabel: "Census Tract: " },
     "wd:": { layers: [21], fields: ['WARD_NUM'], resultLabel: "Political Ward: " },
     "hsc:": { layers: [18], fields: ['NAME'], resultLabel: "High School Catchment: " }
@@ -53,11 +54,10 @@ config.shortcutLookup = {
 config.numberKeywordLookup = {
     'council':"cd:",
     'police':"ppd:",
-    'fire':"fd:",
+    //'fire':"fd:",
     'census':"ct:",
     'ward':"wd:"
 }
-//config.shortcutSearchServiceUrl = "http://gis.phila.gov/ArcGIS/rest/services/PhilaGov/ServiceAreas/MapServer";
 config.shortcutSearchServiceUrl = "http://gis.phila.gov/arcgis/rest/services/PhilaGov/ServiceAreas/MapServer";
 
 function esriConfig() {   
@@ -861,7 +861,7 @@ function showAddress(result) {
         addressResult.location = mercatorPoint;
         addressResult.address = result.Address.StandardizedAddress;
         var show;
-        if (map.getLevel() != (map.getNumLevels() - 3)) {
+        if (map.getLevel() != (map.getNumLevels() - 4)) {
             show = function () {
                 var def = dojo.connect(map, "onZoomEnd", function () {
                     //change infoWindow mercator location, comment out original code
@@ -885,7 +885,7 @@ function showAddress(result) {
         }
         idInfo(addressResult);
         //change map zoom to mercator location, comment out original code
-        map.centerAndZoom(mercatorPoint, map.getNumLevels() - 3);
+        map.centerAndZoom(mercatorPoint, map.getNumLevels() - 4);
         //map.centerAndZoom(location, map.getNumLevels() - 3);
         show();
         if (isPhone()) {
@@ -1059,7 +1059,7 @@ function createBasemapGallery() {
 
     addBaseMap({ url: "http://tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap/MapServer", title: "City Basemap", thumbnailUrl: "/Map/Content/Images/City_Grey.png"}, basemaps);
     addBaseMap({ url: "http://tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap_Slate/MapServer", title: "City Slate", thumbnailUrl: "/Map/Content/Images/City_Slate.png" }, basemaps);
-    addBaseMap({ url: "http://tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityImagery_2014_6in/MapServer", title: "City Aerial 2014", thumbnailUrl: "/Map/Content/Images/City_Imagery_2014.png" }, basemaps);
+    addBaseMap({ url: "http://tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityImagery_2015_3in/MapServer", title: "City Aerial 2015", thumbnailUrl: "/Map/Content/Images/City_Imagery_2014.png" }, basemaps);
         
 	//build the gallery and start it up (this adds them to the map)
 	var basemapGallery = new esri.dijit.BasemapGallery({
